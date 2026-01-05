@@ -1,0 +1,944 @@
+/* ============================================
+   STYLES MULTIJOUEUR ROCKQUIZ - VERSION AMÉLIORÉE
+   ============================================ */
+
+/* === NAVBAR AMÉLIORÉE (MOINS CHARGÉE) === */
+.navbar {
+    background: linear-gradient(120deg, rgba(0, 139, 139, 0.95) 0%, rgba(19, 35, 56, 0.95) 100%);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 206, 209, 0.2);
+    border-bottom: 2px solid var(--turquoise-primary);
+    backdrop-filter: blur(10px);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 0.3rem;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    display: block;
+    padding: 0.6rem 1rem;
+    color: var(--text-medium);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    background: rgba(0, 206, 209, 0.05);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--turquoise-neon);
+    background: rgba(0, 206, 209, 0.15);
+    transform: translateY(-2px);
+}
+
+/* === COMPTEUR EN LIGNE (COMPACT) === */
+.online-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.5);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #22c55e;
+}
+
+.online-counter .indicator {
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse-online 2s infinite;
+}
+
+@keyframes pulse-online {
+    0%, 100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+}
+
+/* === LISTE UTILISATEURS EN LIGNE (PLUS PROPRE) === */
+#online-users-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+    padding: 1.5rem 0;
+}
+
+.online-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--turquoise-dark);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.online-user:hover {
+    transform: translateY(-3px);
+    border-color: var(--turquoise-primary);
+    box-shadow: 0 8px 20px rgba(0, 206, 209, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.online-user.current-user {
+    border-color: var(--accent-yellow);
+    background: rgba(255, 215, 0, 0.08);
+}
+
+.user-avatar {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 8px var(--turquoise-neon));
+    flex-shrink: 0;
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--turquoise-light);
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    font-size: 0.65rem;
+    background: var(--accent-yellow);
+    color: #000;
+    padding: 0.15rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-auth {
+    font-size: 0.65rem;
+    background: var(--turquoise-primary);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.user-time {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+    font-family: 'Courier New', monospace;
+}
+
+.online-indicator {
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse-online 2s infinite;
+    box-shadow: 0 0 8px #22c55e;
+}
+
+/* === CHAT (PLUS ÉPURÉ) === */
+#chat-messages {
+    height: 450px;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--turquoise-dark);
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: var(--turquoise-primary);
+    border-radius: 10px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--turquoise-light);
+}
+
+.message {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+    animation: slideInMessage 0.3s ease;
+    align-items: flex-start;
+}
+
+@keyframes slideInMessage {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-own {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 5px var(--turquoise-neon));
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-own .message-content {
+    background: linear-gradient(135deg, 
+        rgba(0, 206, 209, 0.3), 
+        rgba(0, 139, 139, 0.3));
+    border-color: var(--turquoise-primary);
+}
+
+.message-author {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    color: var(--turquoise-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.message-own .message-author {
+    color: var(--turquoise-neon);
+}
+
+.message-text {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--text-light);
+    word-wrap: break-word;
+    margin-bottom: 0.3rem;
+}
+
+.message-time {
+    font-size: 0.7rem;
+    color: var(--text-medium);
+    opacity: 0.7;
+    font-family: 'Courier New', monospace;
+}
+
+/* === INPUT CHAT (SIMPLIFIÉ) === */
+.chat-input-container {
+    display: flex;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid var(--turquoise-dark);
+}
+
+#chat-input {
+    flex: 1;
+    padding: 0.8rem 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--turquoise-dark);
+    border-radius: 20px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+#chat-input::placeholder {
+    color: var(--text-medium);
+    opacity: 0.6;
+}
+
+#chat-input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--turquoise-primary);
+    box-shadow: 0 0 15px rgba(0, 206, 209, 0.2);
+}
+
+#chat-send-btn {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, var(--turquoise-primary), var(--turquoise-dark));
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 206, 209, 0.3);
+}
+
+#chat-send-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 206, 209, 0.4);
+    background: linear-gradient(135deg, var(--turquoise-neon), var(--turquoise-primary));
+}
+
+#chat-send-btn:active {
+    transform: translateY(0);
+}
+
+/* === SECTIONS MULTIJOUEUR (HEADER ÉPURÉ) === */
+.multiplayer-section-header {
+    background: linear-gradient(135deg, 
+        rgba(0, 139, 139, 0.2), 
+        rgba(0, 206, 209, 0.1));
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--turquoise-primary);
+}
+
+.multiplayer-section-header h2 {
+    font-size: 2.2rem;
+    color: var(--turquoise-neon);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.multiplayer-section-header p {
+    font-size: 1rem;
+    color: var(--text-medium);
+}
+
+/* === CARDS STATISTIQUES (PLUS PROPRES) === */
+.personal-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin: 2rem 0;
+}
+
+.personal-stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px solid var(--turquoise-dark);
+    transition: all 0.3s ease;
+}
+
+.personal-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 206, 209, 0.2);
+    border-color: var(--turquoise-primary);
+}
+
+.personal-stat-card .stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    filter: drop-shadow(0 0 10px var(--turquoise-neon));
+}
+
+.personal-stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--turquoise-neon);
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.personal-stat-card .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 968px) {
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-container {
+        gap: 1rem;
+    }
+
+    .nav-menu {
+        gap: 0.2rem;
+    }
+
+    .nav-link {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .online-counter {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    #online-users-list {
+        grid-template-columns: 1fr;
+    }
+
+    #chat-messages {
+        height: 350px;
+        padding: 1rem;
+    }
+
+    .message-content {
+        max-width: 85%;
+        padding: 0.7rem 0.9rem;
+    }
+
+    .message-avatar {
+        font-size: 1.5rem;
+    }
+
+    .chat-input-container {
+        flex-direction: column;
+        padding: 0.8rem;
+    }
+
+    #chat-send-btn {
+        width: 100%;
+    }
+
+    .multiplayer-section-header {
+        padding: 1.5rem;
+    }
+
+    .multiplayer-section-header h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .user-avatar {
+        font-size: 1.8rem;
+    }
+
+    .user-name {
+        font-size: 1rem;
+    }
+
+    #chat-messages {
+        height: 300px;
+    }
+
+    .personal-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* === AMÉLIORATIONS VISUELLES === */
+.online-user::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        transparent, 
+        rgba(0, 255, 255, 0.03));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.online-user:hover::before {
+    opacity: 1;
+}
+
+/* Boutons plus propres */
+button[onclick*="loadOnlineUsers"] {
+    background: linear-gradient(135deg, var(--turquoise-primary), var(--turquoise-dark)) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 0.6rem 1.2rem !important;
+    color: white !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 206, 209, 0.3) !important;
+}
+
+button[onclick*="loadOnlineUsers"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 206, 209, 0.4) !important;
+}
+
+/* Espacement amélioré */
+.page-screen {
+    padding: 1.5rem;
+}
+
+/* Conteneurs principaux */
+.page-screen > div[style*="background"] {
+    border-radius: 12px !important;
+    border: 1px solid var(--turquoise-dark) !important;
+}
+/* ============================================
+   STYLES CHAT AVEC ÉMOJIS - ROCKQUIZ
+   À ajouter à multiplayer-styles.css
+   ============================================ */
+
+/* === INPUT CHAT AMÉLIORÉ AVEC ÉMOJIS === */
+.chat-input-container {
+    display: flex;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid var(--turquoise-dark);
+    position: relative;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 0.8rem 3rem 0.8rem 1.2rem; /* Plus d'espace à droite pour le bouton emoji */
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--turquoise-dark);
+    border-radius: 20px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+#chat-input::placeholder {
+    color: var(--text-medium);
+    opacity: 0.6;
+}
+
+#chat-input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--turquoise-primary);
+    box-shadow: 0 0 15px rgba(0, 206, 209, 0.2);
+}
+
+/* === BOUTON EMOJI === */
+.emoji-trigger {
+    position: absolute;
+    right: 8.5rem; /* Ajusté pour être dans le champ input */
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.emoji-trigger:hover {
+    transform: translateY(-50%) scale(1.2);
+    filter: brightness(1.2);
+}
+
+/* === SÉLECTEUR D'ÉMOJIS === */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, rgba(30, 58, 95, 0.98), rgba(19, 35, 56, 0.98));
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--turquoise-primary);
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: 0 -8px 30px rgba(0, 206, 209, 0.3);
+    display: none;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: slideUp 0.3s ease;
+}
+
+.emoji-picker.show {
+    display: block;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === HEADER DU SÉLECTEUR === */
+.emoji-picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(0, 206, 209, 0.3);
+}
+
+.emoji-picker-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--turquoise-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.emoji-picker-close {
+    background: none;
+    border: none;
+    color: var(--text-medium);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.emoji-picker-close:hover {
+    color: var(--turquoise-neon);
+    transform: rotate(90deg);
+}
+
+/* === BARRE DE RECHERCHE === */
+.emoji-search {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.emoji-search::placeholder {
+    color: var(--text-medium);
+    opacity: 0.6;
+}
+
+.emoji-search:focus {
+    border-color: var(--turquoise-primary);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(0, 206, 209, 0.2);
+}
+
+/* === CATÉGORIES === */
+.emoji-categories {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 0.8rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.emoji-categories::-webkit-scrollbar {
+    height: 4px;
+}
+
+.emoji-categories::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.emoji-categories::-webkit-scrollbar-thumb {
+    background: var(--turquoise-primary);
+    border-radius: 2px;
+}
+
+.emoji-category-btn {
+    background: rgba(0, 206, 209, 0.1);
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    color: var(--text-medium);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.emoji-category-btn:hover,
+.emoji-category-btn.active {
+    background: linear-gradient(135deg, var(--turquoise-primary), var(--turquoise-dark));
+    border-color: var(--turquoise-neon);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* === GRILLE D'ÉMOJIS === */
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.3rem;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 0.3rem;
+}
+
+.emoji-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.emoji-grid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.emoji-grid::-webkit-scrollbar-thumb {
+    background: var(--turquoise-primary);
+    border-radius: 3px;
+}
+
+.emoji-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--turquoise-light);
+}
+
+.emoji-item {
+    background: rgba(0, 206, 209, 0.05);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-item:hover {
+    background: rgba(0, 206, 209, 0.2);
+    border-color: var(--turquoise-primary);
+    transform: scale(1.3);
+    z-index: 10;
+}
+
+.emoji-item:active {
+    transform: scale(1.1);
+}
+
+/* === ÉMOJIS RÉCENTS === */
+.emoji-recent-section {
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(0, 206, 209, 0.2);
+}
+
+.emoji-section-title {
+    font-size: 0.75rem;
+    color: var(--text-medium);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.emoji-recent-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.3rem;
+}
+
+/* === MESSAGE D'ERREUR === */
+.emoji-no-results {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-medium);
+    font-size: 0.9rem;
+}
+
+.emoji-no-results-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+    .emoji-picker {
+        width: calc(100vw - 2rem);
+        right: 1rem;
+        left: 1rem;
+        max-height: 350px;
+    }
+    
+    .emoji-grid {
+        grid-template-columns: repeat(6, 1fr);
+        max-height: 200px;
+    }
+    
+    .emoji-recent-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .emoji-item {
+        font-size: 1.3rem;
+        padding: 0.4rem;
+    }
+    
+    .emoji-trigger {
+        right: 8rem;
+        font-size: 1.3rem;
+    }
+}
+
+/* === ANIMATION ÉMOJI DANS MESSAGE === */
+.message-text .emoji-in-text {
+    font-size: 1.3em;
+    vertical-align: middle;
+    display: inline-block;
+    animation: emojiPop 0.3s ease;
+}
+
+@keyframes emojiPop {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* === COMPTEUR DE CARACTÈRES === */
+.chat-char-counter {
+    position: absolute;
+    bottom: -1.5rem;
+    right: 7rem;
+    font-size: 0.7rem;
+    color: var(--text-medium);
+    opacity: 0.7;
+}
+
+.chat-char-counter.warning {
+    color: var(--accent-coral);
+    font-weight: 700;
+}
+
+/* === AMÉLIORATION DU CONTENEUR === */
+.chat-input-wrapper {
+    position: relative;
+}
+
+/* === TOOLTIPS === */
+.emoji-trigger[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    margin-bottom: 0.3rem;
+    pointer-events: none;
+}
+
+/* === INDICATEUR DE FRAPPE === */
+.typing-indicator {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    color: var(--text-medium);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.typing-indicator.show {
+    display: flex;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--turquoise-primary);
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-8px);
+    }
+}

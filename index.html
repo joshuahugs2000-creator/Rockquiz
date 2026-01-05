@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROCKQUIZ - Plateforme de Quiz Interactif</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="multiplayer-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Barre de Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+    <img src="images/logoo.jpg" alt="logoo" class="logo-img">
+</div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-page="home">Accueil</a></li>
+                <li><a href="#" class="nav-link" data-page="categories">Catégories</a></li>
+                <li><a href="#" class="nav-link" data-page="leaderboard">Classement</a></li>
+                <li><a href="#" class="nav-link" data-page="online">🌐 Mode Online</a></li>
+                <li><a href="#" class="nav-link" data-page="chat">💬 Chat Groupe</a></li>
+                <li><a href="#" class="nav-link" data-page="profile">Profil</a></li>
+                <li><a href="contacts.html" class="nav-link-external">Contact</a></li>
+            </ul>
+            
+            <div class="online-counter">
+                <span class="indicator"></span>
+                <span id="online-count">0</span> en ligne
+            </div>
+            
+            <div id="auth-buttons" class="auth-buttons">
+                <a href="login.html" class="btn-login">🔐 Connexion</a>
+            </div>
+            
+            <div class="nav-profile" id="nav-profile-btn" style="display: none;">
+                <span class="profile-avatar" id="profile-avatar">👤</span>
+                <span class="profile-name" id="profile-name">Utilisateur</span>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Écran d'accueil -->
+        <div id="home-screen" class="page-screen active">
+            <div class="hero-section">
+                <h1 class="hero-title">Bienvenue sur ROCKQUIZ</h1>
+                <p class="hero-subtitle">Testez vos connaissances avec 10 questions par quiz !</p>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <div class="stat-number">9</div>
+                        <div class="stat-text">Thèmes</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-number">1050</div>
+                        <div class="stat-text">Questions</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-number" id="total-played">0</div>
+                        <div class="stat-text">Parties jouées</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">🎯 Choisissez un thème</h2>
+            <div class="theme-grid">
+                <div class="theme-card" data-theme="culture">
+                    <div class="theme-icon">📚</div>
+                    <h3>Culture Générale</h3>
+                    <p>Histoire, arts, société</p>
+                    <div class="theme-badge">Populaire</div>
+                </div>
+                
+                <div class="theme-card" data-theme="science">
+                    <div class="theme-icon">🔬</div>
+                    <h3>Sciences</h3>
+                    <p>Physique, chimie, biologie</p>
+                </div>
+                
+                <div class="theme-card" data-theme="histoire">
+                    <div class="theme-icon">🏛️</div>
+                    <h3>Histoire</h3>
+                    <p>Événements historiques</p>
+                </div>
+                
+                <div class="theme-card" data-theme="technologie">
+                    <div class="theme-icon">💻</div>
+                    <h3>Technologie</h3>
+                    <p>Informatique et innovation</p>
+                    <div class="theme-badge trending">Tendance</div>
+                </div>
+
+                <div class="theme-card" data-theme="sport">
+                    <div class="theme-icon">⚽</div>
+                    <h3>Sport</h3>
+                    <p>Compétitions et athlètes</p>
+                </div>
+
+                <div class="theme-card" data-theme="geographie">
+                    <div class="theme-icon">🌍</div>
+                    <h3>Géographie</h3>
+                    <p>Pays, capitales, continents</p>
+                </div>
+
+                <div class="theme-card" data-theme="cinema">
+                    <div class="theme-icon">🎬</div>
+                    <h3>Cinéma</h3>
+                    <p>Films et réalisateurs</p>
+                </div>
+
+                <div class="theme-card" data-theme="musique">
+                    <div class="theme-icon">🎵</div>
+                    <h3>Musique</h3>
+                    <p>Artistes et compositions</p>
+                </div>
+
+                <div class="theme-card" data-theme="anime">
+                    <div class="theme-icon">🎌</div>
+                    <h3>Anime & Manga</h3>
+                    <p>Naruto, One Piece, Dragon Ball...</p>
+                    <div class="theme-badge trending">Nouveau</div>
+                </div>
+            </div>
+
+            <div class="recent-stats">
+                <h3>📊 Vos statistiques récentes</h3>
+                <div id="user-stats-home"></div>
+            </div>
+        </div>
+
+        <!-- Page Catégories -->
+        <div id="categories-screen" class="page-screen">
+            <h1 class="page-title">📚 Toutes les Catégories</h1>
+            <div class="categories-list">
+                <div class="category-item" data-theme="culture">
+                    <div class="category-header">
+                        <div class="category-icon">📚</div>
+                        <div class="category-info">
+                            <h3>Culture Générale</h3>
+                            <p>100 questions sur l'histoire, les arts, la société et plus encore</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-culture-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-culture-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="science">
+                    <div class="category-header">
+                        <div class="category-icon">🔬</div>
+                        <div class="category-info">
+                            <h3>Sciences</h3>
+                            <p>100 questions sur la physique, chimie, biologie et astronomie</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-science-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-science-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="histoire">
+                    <div class="category-header">
+                        <div class="category-icon">🏛️</div>
+                        <div class="category-info">
+                            <h3>Histoire</h3>
+                            <p>100 questions sur les événements historiques du monde entier</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-histoire-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-histoire-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="technologie">
+                    <div class="category-header">
+                        <div class="category-icon">💻</div>
+                        <div class="category-info">
+                            <h3>Technologie</h3>
+                            <p>100 questions sur l'informatique, Internet et les innovations</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-technologie-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-technologie-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="sport">
+                    <div class="category-header">
+                        <div class="category-icon">⚽</div>
+                        <div class="category-info">
+                            <h3>Sport</h3>
+                            <p>100 questions sur les sports, athlètes et compétitions</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-sport-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-sport-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="geographie">
+                    <div class="category-header">
+                        <div class="category-icon">🌍</div>
+                        <div class="category-info">
+                            <h3>Géographie</h3>
+                            <p>100 questions sur les pays, capitales et continents</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-geographie-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-geographie-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="cinema">
+                    <div class="category-header">
+                        <div class="category-icon">🎬</div>
+                        <div class="category-info">
+                            <h3>Cinéma</h3>
+                            <p>100 questions sur les films, réalisateurs et acteurs</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-cinema-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-cinema-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="musique">
+                    <div class="category-header">
+                        <div class="category-icon">🎵</div>
+                        <div class="category-info">
+                            <h3>Musique</h3>
+                            <p>100 questions sur les artistes, instruments et compositions</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-musique-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-musique-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+
+                <div class="category-item" data-theme="anime">
+                    <div class="category-header">
+                        <div class="category-icon">🎌</div>
+                        <div class="category-info">
+                            <h3>Anime & Manga</h3>
+                            <p>250+ questions sur Naruto, One Piece, Dragon Ball, Attack on Titan et bien d'autres</p>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <span class="category-stat">🎯 <span id="cat-anime-played">0</span> parties</span>
+                        <span class="category-stat">⭐ <span id="cat-anime-best">0</span>%</span>
+                    </div>
+                    <button class="category-btn">Commencer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Classement -->
+        <div id="leaderboard-screen" class="page-screen">
+            <h1 class="page-title">🏆 Classement</h1>
+            <div class="leaderboard-tabs">
+                <button class="leaderboard-tab active" data-tab="personal">Personnel</button>
+                <button class="leaderboard-tab" data-tab="themes">Par Thème</button>
+            </div>
+
+            <div id="personal-leaderboard" class="leaderboard-content active">
+                <div class="podium">
+                    <div class="podium-item second">
+                        <div class="podium-rank">🥈</div>
+                        <div class="podium-avatar" id="podium-2-avatar">🤓</div>
+                        <div class="podium-name" id="podium-2-name">-</div>
+                        <div class="podium-score" id="podium-2-score">0%</div>
+                    </div>
+                    <div class="podium-item first">
+                        <div class="podium-rank">🥇</div>
+                        <div class="podium-avatar" id="podium-1-avatar">😎</div>
+                        <div class="podium-name" id="podium-1-name">-</div>
+                        <div class="podium-score" id="podium-1-score">0%</div>
+                    </div>
+                    <div class="podium-item third">
+                        <div class="podium-rank">🥉</div>
+                        <div class="podium-avatar" id="podium-3-avatar">😊</div>
+                        <div class="podium-name" id="podium-3-name">-</div>
+                        <div class="podium-score" id="podium-3-score">0%</div>
+                    </div>
+                </div>
+
+                <div class="personal-stats-grid">
+                    <div class="personal-stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value" id="total-games">0</div>
+                        <div class="stat-label">Parties Jouées</div>
+                    </div>
+                    <div class="personal-stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-value" id="avg-score">0%</div>
+                        <div class="stat-label">Score Moyen</div>
+                    </div>
+                    <div class="personal-stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value" id="best-score">0%</div>
+                        <div class="stat-label">Meilleur Score</div>
+                    </div>
+                    <div class="personal-stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-value" id="perfect-games">0</div>
+                        <div class="stat-label">Quiz Parfaits</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="themes-leaderboard" class="leaderboard-content">
+                <div id="themes-ranking"></div>
+            </div>
+        </div>
+
+        <!-- Page Profil -->
+        <div id="profile-screen" class="page-screen">
+            <h1 class="page-title">👤 Mon Profil</h1>
+            
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-avatar-display" id="profile-page-avatar">👤</div>
+                    <h2 id="profile-page-name">Invité</h2>
+                    <button class="edit-profile-btn" id="edit-profile-page-btn">✏️ Modifier mon profil</button>
+                </div>
+
+                <div class="profile-achievements">
+                    <h3>🏅 Réalisations</h3>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">🎯</div>
+                            <div class="achievement-name">Premier Quiz</div>
+                            <div class="achievement-desc">Terminez votre premier quiz</div>
+                        </div>
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">⭐</div>
+                            <div class="achievement-name">Score Parfait</div>
+                            <div class="achievement-desc">Obtenez 10/10 à un quiz</div>
+                        </div>
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">🔥</div>
+                            <div class="achievement-name">Marathonien</div>
+                            <div class="achievement-desc">Jouez 10 quiz</div>
+                        </div>
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">🌟</div>
+                            <div class="achievement-name">Expert</div>
+                            <div class="achievement-desc">80% de moyenne sur 5 quiz</div>
+                        </div>
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">🎓</div>
+                            <div class="achievement-name">Polyvalent</div>
+                            <div class="achievement-desc">Jouez tous les thèmes</div>
+                        </div>
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">👑</div>
+                            <div class="achievement-name">Champion</div>
+                            <div class="achievement-desc">Jouez 50 quiz</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-stats-detailed">
+                    <h3>📊 Statistiques Détaillées</h3>
+                    <div id="profile-detailed-stats"></div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="danger-btn" id="reset-all-btn">🗑️ Réinitialiser tout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE MONDE ONLINE -->
+        <div id="online-screen" class="page-screen">
+            <div class="multiplayer-section-header">
+                <h2>🌐 Monde Online</h2>
+                <p>Découvrez qui joue en ce moment sur RockQuiz</p>
+            </div>
+
+            <div class="personal-stats-grid" style="margin-bottom: 3rem;">
+                <div class="personal-stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="total-online-users">0</div>
+                    <div class="stat-label">Joueurs En Ligne</div>
+                </div>
+                
+                <div class="personal-stat-card">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-value" id="authenticated-users">0</div>
+                    <div class="stat-label">Membres Inscrits</div>
+                </div>
+                
+                <div class="personal-stat-card">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-value" id="guest-users">0</div>
+                    <div class="stat-label">Invités</div>
+                </div>
+                
+                <div class="personal-stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value" id="active-now">0</div>
+                    <div class="stat-label">Actifs Maintenant</div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, var(--bg-medium), var(--bg-light)); 
+                        padding: 2.5rem; border-radius: 15px; 
+                        border: 2px solid var(--turquoise-dark);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.8rem; color: var(--turquoise-light);">
+                        Liste des Joueurs
+                    </h3>
+                    <button onclick="window.multiplayerSystem?.loadOnlineUsers()" 
+                            style="padding: 0.6rem 1.5rem; 
+                                   background: linear-gradient(135deg, var(--turquoise-primary), var(--turquoise-dark));
+                                   color: white; border: none; border-radius: 10px; 
+                                   cursor: pointer; font-weight: 600;">
+                        🔄 Actualiser
+                    </button>
+                </div>
+                <div id="online-users-list"></div>
+            </div>
+        </div>
+
+        <!-- PAGE CHAT GROUPE -->
+        <div id="chat-screen" class="page-screen">
+            <div class="multiplayer-section-header">
+                <h2>💬 Chat Groupe</h2>
+                <p>Discutez avec les autres joueurs de RockQuiz</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, var(--bg-medium), var(--bg-light)); 
+                        padding: 2rem; border-radius: 15px; 
+                        border: 2px solid var(--turquoise-dark);">
+                
+                <div id="chat-messages"></div>
+                
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        placeholder="Écrivez votre message..."
+                        maxlength="500"
+                    >
+                    <button id="chat-send-btn">Envoyer</button>
+                </div>
+                
+                <div style="margin-top: 1rem; text-align: center; color: var(--text-medium); font-size: 0.85rem;">
+                    <p>💡 Soyez respectueux envers les autres joueurs</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Écran du quiz -->
+        <div id="quiz-screen" class="page-screen">
+            <div class="quiz-header">
+                <button id="quit-btn" class="btn-secondary">← Quitter</button>
+                <h2 id="quiz-theme-title"></h2>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="question-counter" id="question-counter"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text" id="question-text"></div>
+                <div class="options" id="options-container"></div>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="quiz-actions">
+                <button id="next-btn" class="btn-primary" disabled>Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Écran des résultats -->
+        <div id="results-screen" class="page-screen">
+            <div class="results-container">
+                <h1 class="results-title">🎉 Quiz Terminé !</h1>
+                
+                <div class="score-circle">
+                    <svg viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="90" class="score-bg"></circle>
+                        <circle cx="100" cy="100" r="90" class="score-progress" id="score-circle"></circle>
+                    </svg>
+                    <div class="score-content">
+                        <div class="score-value" id="score-display">0/10</div>
+                        <div class="score-percent" id="score-percent">0%</div>
+                    </div>
+                </div>
+
+                <div class="score-message" id="score-message"></div>
+                
+                <div class="results-grid">
+                    <div class="result-item correct-item">
+                        <div class="result-icon">✅</div>
+                        <div class="result-value" id="correct-count">0</div>
+                        <div class="result-label">Correctes</div>
+                    </div>
+                    
+                    <div class="result-item incorrect-item">
+                        <div class="result-icon">❌</div>
+                        <div class="result-value" id="incorrect-count">0</div>
+                        <div class="result-label">Incorrectes</div>
+                    </div>
+                </div>
+
+                <div class="review-section">
+                    <h3>📝 Révision des questions</h3>
+                    <div id="review-container"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button id="retry-btn" class="btn-primary">🔄 Refaire ce quiz</button>
+                    <button id="home-btn" class="btn-secondary">🏠 Accueil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Profil -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>👤 Configuration du Profil</h2>
+            <div class="avatar-selection">
+                <h3>Choisissez votre avatar</h3>
+                <div class="avatar-grid">
+                    <div class="avatar-option" data-avatar="😀">😀</div>
+                    <div class="avatar-option" data-avatar="😎">😎</div>
+                    <div class="avatar-option" data-avatar="🤓">🤓</div>
+                    <div class="avatar-option" data-avatar="😊">😊</div>
+                    <div class="avatar-option" data-avatar="🥳">🥳</div>
+                    <div class="avatar-option" data-avatar="🤩">🤩</div>
+                    <div class="avatar-option" data-avatar="🧐">🧐</div>
+                    <div class="avatar-option" data-avatar="🤗">🤗</div>
+                </div>
+            </div>
+            <div class="name-input-section">
+                <label for="user-name-input">Votre pseudo</label>
+                <input type="text" id="user-name-input" placeholder="Entrez votre pseudo" maxlength="20">
+            </div>
+            <button id="save-profile-btn" class="btn-primary">Enregistrer</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>📚 ROCKQUIZ</h3>
+                <p>La plateforme ultime pour tester vos connaissances !</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#" data-page="home">Accueil</a></li>
+                    <li><a href="#" data-page="categories">Catégories</a></li>
+                    <li><a href="#" data-page="leaderboard">Classement</a></li>
+                    <li><a href="#" data-page="online">🌐 Mode Online</a></li>
+                    <li><a href="#" data-page="chat">💬 Chat Groupe</a></li>
+                    <li><a href="#" data-page="profile">Profil</a></li>
+                    <li><a href="apropos.html">A propos</a></li>
+                    <li><a href="contacts.html">Contact</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Thèmes</h4>
+                <ul>
+                    <li>📚 Culture • 🔬 Sciences</li>
+                    <li>🏛️ Histoire • 💻 Technologie</li>
+                    <li>⚽ Sport • 🌍 Géographie</li>
+                    <li>🎬 Cinéma • 🎵 Musique</li>
+                    <li>🎌 Anime & Manga</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ROCKQUIZ. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+    <script src="auth-check.js"></script>
+    <script src="multiplayer.js"></script>
+	<script src="config.js"></script>
+    <script src="analytics.js"></script>  <!-- ← AJOUTEZ CETTE LIGNE -->
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+	 <script src="fix-online-counter.js"></script>  <!-- ← AJOUTEZ CETTE LIGNE -->
+</body>
+</body>
+</html>

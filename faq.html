@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - ROCKQUIZ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+    <!-- SECTION FAQ -->
+    <section id="faq" class="section active">
+        <div class="container">
+            <h2 class="section-title">❓ Questions Fréquentes</h2>
+            
+            <div class="faq-intro">
+                <p>Vous avez des questions sur ROCKQUIZ ? Trouvez ici les réponses aux questions les plus fréquentes.</p>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Comment fonctionne ROCKQUIZ ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            ROCKQUIZ est simple à utiliser ! Choisissez un thème parmi nos 9 catégories disponibles, 
+                            puis lancez un quiz de 10 questions. Répondez à chaque question en sélectionnant la 
+                            réponse que vous pensez être correcte. À la fin, vous obtiendrez votre score et pourrez 
+                            consulter vos statistiques.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Dois-je créer un compte pour jouer ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Non, vous pouvez jouer en mode invité ! Cependant, créer un profil vous permet de 
+                            sauvegarder vos scores, suivre vos statistiques, débloquer des badges et apparaître 
+                            dans le classement. C'est gratuit et rapide !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Combien de questions y a-t-il par quiz ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Chaque quiz contient exactement 10 questions tirées aléatoirement de la catégorie 
+                            choisie. Cela permet une session rapide de 5 à 10 minutes, parfaite pour une pause 
+                            ou un défi entre amis !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Comment sont calculés les scores ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Votre score est calculé en pourcentage : chaque bonne réponse vous rapporte 10%. 
+                            Un quiz parfait vous donne donc 100% (10/10). Vos statistiques globales incluent 
+                            votre score moyen, votre meilleur score et le nombre de quiz parfaits réalisés.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Qu'est-ce que les badges et comment les débloquer ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Les badges sont des récompenses qui reconnaissent vos accomplissements. Vous pouvez 
+                            débloquer "Premier Quiz" en terminant votre premier quiz, "Score Parfait" avec un 10/10, 
+                            "Marathonien" en jouant 10 quiz, "Expert" avec 80% de moyenne sur 5 quiz, "Polyvalent" 
+                            en essayant tous les thèmes, et "Champion" en jouant 50 quiz !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Puis-je jouer sur mobile ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Absolument ! ROCKQUIZ est entièrement responsive et optimisé pour tous les appareils : 
+                            smartphones, tablettes et ordinateurs. Jouez où vous voulez, quand vous voulez !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Les questions sont-elles mises à jour régulièrement ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Oui ! Nous enrichissons constamment notre base de données avec de nouvelles questions 
+                            pour garantir une expérience toujours renouvelée. Suivez-nous pour être informé des 
+                            nouveaux thèmes et questions ajoutés.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Comment fonctionne le classement ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Le classement présente deux vues : un classement personnel basé sur votre score moyen 
+                            global, et un classement par thème montrant vos performances dans chaque catégorie. 
+                            Plus vous jouez et obtenez de bons scores, plus vous montez dans le classement !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Puis-je proposer des questions ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Nous adorerions recevoir vos suggestions ! Utilisez le formulaire de contact pour 
+                            nous soumettre vos idées de questions. Chaque question proposée est examinée par 
+                            notre équipe avant d'être potentiellement ajoutée à la plateforme.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>ROCKQUIZ est-il gratuit ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Oui, ROCKQUIZ est 100% gratuit ! Toutes les fonctionnalités, tous les thèmes et 
+                            toutes les questions sont accessibles sans aucun frais. Notre objectif est de rendre 
+                            la connaissance accessible à tous.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Que faire si je rencontre un problème technique ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Si vous rencontrez un bug ou un problème technique, n'hésitez pas à nous contacter 
+                            via notre <a href="contact.html">formulaire de contact</a>. Décrivez le problème 
+                            rencontré et nous vous répondrons dans les plus brefs délais pour vous aider.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Puis-je partager mes résultats ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Actuellement, vous pouvez capturer vos résultats et les partager manuellement. 
+                            Nous travaillons sur une fonctionnalité de partage direct sur les réseaux sociaux 
+                            qui sera bientôt disponible !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Y a-t-il une limite de temps pour répondre aux questions ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Non, il n'y a actuellement aucune limite de temps. Vous pouvez prendre le temps 
+                            de réfléchir à chaque question. Cependant, nous prévoyons d'ajouter un mode 
+                            "Chronomètre" en option pour ceux qui aiment les défis rapides !
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Comment puis-je améliorer mes scores ?</h4>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Pratiquez régulièrement ! Plus vous jouez, plus vous apprenez. Après chaque quiz, 
+                            prenez le temps de réviser les questions que vous avez ratées. Variez aussi les 
+                            thèmes pour enrichir votre culture générale. La persévérance est la clé !
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-footer">
+                <p>Vous ne trouvez pas la réponse à votre question ?</p>
+                <a href="contact.html" class="contact-cta">Contactez-nous</a>
+            </div>
+        </div>
+    </section>
+
+     <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>📚 ROCKQUIZ</h3>
+                <p>La plateforme ultime pour tester vos connaissances !</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+               
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Thèmes</h4>
+                <ul>
+                    <li>📚 Culture • 🔬 Sciences</li>
+                    <li>🏛️ Histoire • 💻 Technologie</li>
+                    <li>⚽ Sport • 🌍 Géographie</li>
+                    <li>🎬 Cinéma • 🎵 Musique</li>
+                    <li>🎌 Anime & Manga</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 ROCKQUIZ. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+        // Fonction pour basculer les réponses FAQ
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Fermer toutes les FAQ
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Ouvrir la FAQ cliquée si elle n'était pas active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Fermer la FAQ en cliquant en dehors
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.faq-item')) {
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+		<script src="config.js"></script>
+    <script src="analytics.js"></script>  <!-- ← AJOUTEZ CETTE LIGNE -->
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+
+    </script>
+</body>
+</body>
+</html>

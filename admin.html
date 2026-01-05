@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Statistiques - ROCKQUIZ Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 206, 209, 0.2), rgba(0, 139, 139, 0.2));
+            border-radius: 15px;
+            border: 2px solid var(--turquoise-primary);
+        }
+
+        .admin-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--turquoise-neon), var(--turquoise-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .realtime-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            border-radius: 50px;
+            color: #22c55e;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.6), rgba(19, 35, 56, 0.6));
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 206, 209, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 206, 209, 0.3);
+            border-color: var(--turquoise-primary);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--turquoise-neon);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-trend {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .trend-up {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .trend-down {
+            background: rgba(255, 68, 68, 0.2);
+            color: #FF4444;
+        }
+
+        .chart-section {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.6), rgba(19, 35, 56, 0.6));
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 206, 209, 0.3);
+            margin: 2rem 0;
+        }
+
+        .chart-section h2 {
+            color: var(--turquoise-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .chart-item {
+            background: rgba(0, 206, 209, 0.1);
+            padding: 1rem;
+            margin: 0.8rem 0;
+            border-radius: 10px;
+            border-left: 4px solid var(--turquoise-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .chart-item:hover {
+            background: rgba(0, 206, 209, 0.2);
+            transform: translateX(5px);
+        }
+
+        .chart-label {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .chart-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--turquoise-neon);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-medium);
+            font-size: 1.2rem;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, var(--turquoise-primary), var(--turquoise-dark));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 206, 209, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--turquoise-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--turquoise-neon);
+            transform: translateX(-5px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-medium);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="admin-header">
+            <h1>📊 Statistiques ROCKQUIZ</h1>
+            <p>Dashboard d'analyse en temps réel</p>
+            <div class="realtime-badge">
+                <span class="pulse-dot"></span>
+                Données en direct
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="loadAllStats()">🔄 Actualiser</button>
+
+        <!-- Stats Principales -->
+        <div class="stats-grid" id="main-stats">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="active-visitors">-</div>
+                <div class="stat-label">Visiteurs Actifs (5 min)</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value" id="today-visitors">-</div>
+                <div class="stat-label">Visiteurs Aujourd'hui</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📄</div>
+                <div class="stat-value" id="today-pageviews">-</div>
+                <div class="stat-label">Pages Vues Aujourd'hui</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value" id="quiz-completed">-</div>
+                <div class="stat-label">Quiz Complétés</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✍️</div>
+                <div class="stat-value" id="new-signups">-</div>
+                <div class="stat-label">Nouvelles Inscriptions</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value" id="avg-duration">-</div>
+                <div class="stat-label">Durée Moyenne (min)</div>
+            </div>
+        </div>
+
+        <!-- Graphique 7 jours -->
+        <div class="chart-section">
+            <h2>📊 Visiteurs des 7 derniers jours</h2>
+            <div id="visitors-chart"></div>
+        </div>
+
+        <!-- Pages populaires -->
+        <div class="chart-section">
+            <h2>🔥 Pages les plus visitées</h2>
+            <div id="top-pages"></div>
+        </div>
+
+        <!-- Thèmes de quiz -->
+        <div class="chart-section">
+            <h2>🎮 Quiz les plus populaires</h2>
+            <div id="quiz-stats"></div>
+        </div>
+
+        <!-- Appareils -->
+        <div class="chart-section">
+            <h2>📱 Répartition par appareil</h2>
+            <div id="device-stats"></div>
+        </div>
+
+        <!-- Événements récents -->
+        <div class="chart-section">
+            <h2>⚡ Événements récents</h2>
+            <div id="recent-events"></div>
+        </div>
+
+        <a href="index.html" class="back-link">← Retour à l'accueil</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        let supabase;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialiser Supabase
+            supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+            
+            // Charger toutes les stats
+            await loadAllStats();
+            
+            // Auto-refresh toutes les 30 secondes
+            setInterval(loadRealtimeStats, 30000);
+        });
+
+        async function loadAllStats() {
+            await Promise.all([
+                loadRealtimeStats(),
+                loadTodayStats(),
+                loadVisitors7Days(),
+                loadTopPages(),
+                loadQuizStats(),
+                loadDeviceStats(),
+                loadRecentEvents()
+            ]);
+        }
+
+        // Stats en temps réel
+        async function loadRealtimeStats() {
+            try {
+                const { data, error } = await supabase
+                    .from('stats_realtime')
+                    .select('*')
+                    .single();
+
+                if (!error && data) {
+                    document.getElementById('active-visitors').textContent = data.active_visitors || 0;
+                }
+            } catch (error) {
+                console.error('Erreur stats temps réel:', error);
+            }
+        }
+
+        // Stats aujourd'hui
+        async function loadTodayStats() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            try {
+                // Visiteurs aujourd'hui
+                const { count: visitorsCount } = await supabase
+                    .from('page_views')
+                    .select('session_id', { count: 'exact', head: true })
+                    .gte('created_at', today);
+
+                document.getElementById('today-visitors').textContent = visitorsCount || 0;
+
+                // Pages vues aujourd'hui
+                const { count: pageviewsCount } = await supabase
+                    .from('page_views')
+                    .select('*', { count: 'exact', head: true })
+                    .gte('created_at', today);
+
+                document.getElementById('today-pageviews').textContent = pageviewsCount || 0;
+
+                // Quiz complétés
+                const { count: quizCount } = await supabase
+                    .from('analytics_events')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('event_name', 'quiz_complete')
+                    .gte('created_at', today);
+
+                document.getElementById('quiz-completed').textContent = quizCount || 0;
+
+                // Nouvelles inscriptions
+                const { count: signupsCount } = await supabase
+                    .from('analytics_events')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('event_name', 'user_signup')
+                    .gte('created_at', today);
+
+                document.getElementById('new-signups').textContent = signupsCount || 0;
+
+                // Durée moyenne
+                const { data: sessions } = await supabase
+                    .from('user_sessions')
+                    .select('duration_seconds')
+                    .gte('started_at', today)
+                    .not('duration_seconds', 'is', null);
+
+                if (sessions && sessions.length > 0) {
+                    const avgDuration = sessions.reduce((sum, s) => sum + (s.duration_seconds || 0), 0) / sessions.length;
+                    document.getElementById('avg-duration').textContent = Math.round(avgDuration / 60);
+                } else {
+                    document.getElementById('avg-duration').textContent = 0;
+                }
+            } catch (error) {
+                console.error('Erreur stats aujourd\'hui:', error);
+            }
+        }
+
+        // Visiteurs 7 jours
+        async function loadVisitors7Days() {
+            try {
+                const { data, error } = await supabase
+                    .from('stats_visitors_7days')
+                    .select('*')
+                    .order('date', { ascending: false });
+
+                const container = document.getElementById('visitors-chart');
+                
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Aucune donnée disponible</p></div>';
+                    return;
+                }
+
+                container.innerHTML = data.map(day => `
+                    <div class="chart-item">
+                        <span class="chart-label">${new Date(day.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'short' })}</span>
+                        <span class="chart-value">${day.visitors} visiteurs (${day.page_views} pages)</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur visiteurs 7j:', error);
+            }
+        }
+
+        // Pages populaires
+        async function loadTopPages() {
+            try {
+                const { data, error } = await supabase
+                    .from('stats_top_pages')
+                    .select('*')
+                    .limit(10);
+
+                const container = document.getElementById('top-pages');
+                
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📄</div><p>Aucune page visitée</p></div>';
+                    return;
+                }
+
+                container.innerHTML = data.map((page, index) => `
+                    <div class="chart-item">
+                        <span class="chart-label">${index + 1}. ${page.page_title || page.page_url}</span>
+                        <span class="chart-value">${page.views} vues</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur top pages:', error);
+            }
+        }
+
+        // Stats quiz
+        async function loadQuizStats() {
+            try {
+                const { data, error } = await supabase
+                    .from('stats_quiz_themes')
+                    .select('*')
+                    .limit(10);
+
+                const container = document.getElementById('quiz-stats');
+                
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎮</div><p>Aucun quiz joué</p></div>';
+                    return;
+                }
+
+                const themeEmojis = {
+                    'culture': '📚',
+                    'science': '🔬',
+                    'histoire': '🏛️',
+                    'technologie': '💻',
+                    'sport': '⚽',
+                    'geographie': '🌍',
+                    'cinema': '🎬',
+                    'musique': '🎵',
+                    'anime': '🎌'
+                };
+
+                container.innerHTML = data.map(quiz => `
+                    <div class="chart-item">
+                        <span class="chart-label">${themeEmojis[quiz.theme] || '🎯'} ${quiz.theme}</span>
+                        <span class="chart-value">${quiz.times_played} parties (moy: ${quiz.avg_score}/10)</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur stats quiz:', error);
+            }
+        }
+
+        // Stats appareils
+        async function loadDeviceStats() {
+            try {
+                const { data, error } = await supabase
+                    .from('stats_by_device')
+                    .select('*');
+
+                const container = document.getElementById('device-stats');
+                
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📱</div><p>Aucune donnée d\'appareil</p></div>';
+                    return;
+                }
+
+                const deviceEmojis = {
+                    'mobile': '📱',
+                    'desktop': '💻',
+                    'tablet': '📲'
+                };
+
+                container.innerHTML = data.map(device => `
+                    <div class="chart-item">
+                        <span class="chart-label">${deviceEmojis[device.device_type] || '📱'} ${device.device_type}</span>
+                        <span class="chart-value">${device.sessions} sessions (${device.page_views} pages)</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur stats appareils:', error);
+            }
+        }
+
+        // Événements récents
+        async function loadRecentEvents() {
+            try {
+                const { data, error } = await supabase
+                    .from('analytics_events')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(15);
+
+                const container = document.getElementById('recent-events');
+                
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚡</div><p>Aucun événement récent</p></div>';
+                    return;
+                }
+
+                container.innerHTML = data.map(event => `
+                    <div class="chart-item">
+                        <span class="chart-label">${event.event_name} ${event.event_data?.theme ? `(${event.event_data.theme})` : ''}</span>
+                        <span class="chart-value">${new Date(event.created_at).toLocaleTimeString('fr-FR')}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur événements récents:', error);
+            }
+        }
+    </script>
+</body>
+</html>

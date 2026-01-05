@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - ROCKQUIZ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SECTION CONTACT -->
+    <section id="contact" class="section active">
+        <div class="container">
+            <h2 class="section-title">📧 Contactez-nous</h2>
+
+            <div class="contact-intro">
+                <p>
+                    Une question ? Une suggestion ? Un problème technique ?
+                    Contactez-nous via le formulaire ou directement ci-dessous.
+                </p>
+            </div>
+
+            <div class="contact-wrapper">
+                <div class="contact-form-container">
+                    <div id="successMessage" class="success-message">
+                        ✅ Message envoyé avec succès !
+                    </div>
+
+                    <form id="contactForm" class="contact-form" onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label>Nom complet *</label>
+                            <input type="text" id="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sujet *</label>
+                            <select id="subject" required>
+                                <option value="">-- Choisir --</option>
+                                <option>Question</option>
+                                <option>Bug</option>
+                                <option>Suggestion</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Message *</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">📤 Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+	<!-- CONTACT RAPIDE -->
+<div class="footer-contact-icons">
+    <a href="https://wa.me/22897171392" target="_blank" class="icon whatsapp" aria-label="WhatsApp">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+    </a>
+
+    <a href="http://t.me/Yoshider" target="_blank" class="icon telegram" aria-label="Telegram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
+    </a>
+
+    <a href="mailto:contact@rockquiz.com" class="icon email" aria-label="Email">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email">
+    </a>
+</div>
+
+
+     <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>📚 ROCKQUIZ</h3>
+                <p>La plateforme ultime pour tester vos connaissances !</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+               
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Thèmes</h4>
+                <ul>
+                    <li>📚 Culture • 🔬 Sciences</li>
+                    <li>🏛️ Histoire • 💻 Technologie</li>
+                    <li>⚽ Sport • 🌍 Géographie</li>
+                    <li>🎬 Cinéma • 🎵 Musique</li>
+                    <li>🎌 Anime & Manga</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 ROCKQUIZ. Tous droits réservés.</p>
+        </div>
+    </footer>
+	<script src="config.js"></script>
+    <script src="analytics.js"></script>  <!-- ← AJOUTEZ CETTE LIGNE -->
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
+    <!-- JS -->
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('successMessage').classList.add('show');
+            document.getElementById('contactForm').reset();
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.remove('show');
+            }, 4000);
+        }
+    </script>
+
+</body>
+</html>
